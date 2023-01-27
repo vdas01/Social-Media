@@ -11,7 +11,7 @@
     top: 0;
     background-color: themed("bg");
     color: themed("textColor");
-
+      z-index: 999;
     .left{
         display: flex;
         align-items: center;
@@ -35,6 +35,12 @@
             width: 500px;
             color: themed("textColor");
             background-color: transparent;
+            @include tablet{
+              width: 200px;
+          }
+          @include mobile{
+            display: none;
+        }
         }
     }
    }
@@ -47,6 +53,11 @@
         align-items: center;
         gap: 10px;
         font-weight: 500;
+
+        @include tablet{
+          display: none;
+         }
+         
           img{
             width: 30px;
             height: 30px;
