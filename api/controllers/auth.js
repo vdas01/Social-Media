@@ -54,7 +54,7 @@ export const logout = (req,res) =>{
     res.clearCookie("accessToken",{
         secure:true,
         //bcoz client and server are in different site so sameSite:none will allow client request to clear cookie
-        sameSite:none 
-    })
+        sameSite:"none" 
+    }).status(200).json("User has been logout");
 
 }

@@ -1,13 +1,32 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import "./login.scss"
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { AuthContext } from '../../context/authContext';
 
 const Login = () => {
-   const {login} = useContext(AuthContext);
+   const [error, setError] = useState(null);
+   const [inputs, setInputs] = useState({
+      username:"",
+      password:"",
+   });
+
+   const handleChange = (e) =>{
+      setInputs(prev=>({...prev,[e.target.name]:e.target.value}))
+  }
+   // console.log(inputs);
+   const { login } = useContext(AuthContext);
+   const navigate = useNavigate();
    
-   const handleLogin = () =>{
-      login();
+   const handleLogin = async (e) =>{
+      e.preventDefault();
+      try{
+          await login(inputs);
+          console.log("logged");
+          navigate("/");
+      }
+      catch(err){
+            setError(err.response.data);
+      }
    }
   return (
     <div className='login'>
@@ -26,8 +45,9 @@ const Login = () => {
           <div className="right">
                <h1>Login</h1>
                <form >
-                  <input type="text" placeholder='Username' />
-                  <input type="password" placeholder='Password' />
+                  <input type="text" placeholder='Username' name='username' onChange={handleChange}/>
+                  <input type="password" placeholder='Password' name='password' onChange={handleChange}/>
+                  {error && error}
                   <button onClick={handleLogin}>Login</button>
                </form>
           </div>
